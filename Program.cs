@@ -1,51 +1,113 @@
 ﻿
 
+using System.Formats.Asn1;
+
 public class Program
 {
 
     public class Animal
     {
         public string? Name { get; set; }
-        //public List<Animal> Prey { get; set; }
+        public List<Animal> Prey = new List<Animal>();
 
-        public Animal(string? animalName = null/*, List<Animal> prey*/) 
+        public Animal(string? animalName = null)
         {
-            Name = string.IsNullOrEmpty(animalName) ? $"Unnamed {this.GetType().Name.ToLower()}" : animalName;
-            //Prey = prey.Count > 0 ? prey : new List<Animal>();
+            Name = string.IsNullOrWhiteSpace(animalName) ? $"Unnamed {this.GetType().Name.ToLower()}" : animalName;
+        }
+    }
+
+    public class Lion : Animal
+    {
+        public Lion(string? animalName = null) : base(animalName)
+        {
+            Prey.Add(new Bird());
         }
 
+        public void GetPreyInfo()
+        {
+            if(Prey.Count == 0)
+            {
+                Console.WriteLine("The animal has no prey");
+                return;
+            }
+
+            foreach (var animal in Prey)
+            {
+                Console.WriteLine(animal.Name);
+            }
+        }
     }
 
-    public class Rat : Animal
+    public class Bird : Animal
     {
-
+        public Bird(string? animalName = null) : base(animalName)
+        {
+        }
     }
-
-
 
     public class Cage
     {
-        public List<Animal> Animals { get; set; }
+        public List<Animal> AnimalList = new List<Animal>();
 
-    }
-
-
-    public class Zoo
-    {
-        public List<Cage> Cages { get; set; }
-
-        public void GetNumberOfCages()
+        public void GetAnimalsInsideCage(List<Animal> cagedAnimals)
         {
-            Console.WriteLine(Cages.Count);
+            if(cagedAnimals == null || cagedAnimals.Count == 0)
+            {
+                Console.WriteLine("There are currently no animals inside this cage");
+                return;
+            }
+
+            foreach(Animal animal in cagedAnimals)
+            {
+                Console.Write($"{animal.Name}");
+            }
+        }
+
+        public void AddAnimal(Animal animal)
+        {
+            
+
+            foreach(Animal a in AnimalList)
+            {
+                if (animal.Prey.Any(prey => prey.GetType() == a.GetType() || a.GetType() == prey.GetType()))
+                {
+                    Console.WriteLine("Ooops! Seems like you put predator and prey in the same cage");
+                    Console.WriteLine($"{a.GetType().Name} was eaten by {animal.GetType().Name}");
+                    return;
+                } else if (animal.Prey.Any(prey => a.GetType() == prey.GetType()))
+                {
+                    Console.WriteLine("Ooops! Seems like you put predator and prey in the same cage");
+                    Console.WriteLine($"{animal.GetType().Name} was eaten by {a.GetType().Name}");
+                }
+            }
+            
+            //lägg till nytt djur i listan
+            AnimalList.Add(animal);
         }
     }
 
     public static void Main(string[] args)
     {
-        Animal test = new Animal();
-        Console.WriteLine(test.Name);
+        Animal animal = new Animal("karl");
 
-        Rat rat = new Rat();
-        Console.WriteLine(rat.Name);
+        Cage cage = new Cage();
+
+        Lion aslan = new Lion("Fred");
+
+        Lion leo = new Lion();
+
+        Console.WriteLine(aslan.Name);
+
+        //Console.WriteLine(aslan.Prey[0].Name);
+
+        //cage.AnimalList.Add(aslan);
+
+        //cage.AnimalList.Add(leo);
+
+        Bird larry = new Bird();
+
+        cage.AddAnimal(larry);
+
+        cage.AddAnimal(leo);
     }
 }
