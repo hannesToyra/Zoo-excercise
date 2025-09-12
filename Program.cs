@@ -33,16 +33,10 @@ public class Program
     {
         public Lion(string? animalName = null) : base(animalName)
         {
-            Prey.Add(new Bird());
+            Prey.AddRange(new List<Animal> { new Goat(), new Jackal(), new WildCat(), new Kite()});
         }
     }
 
-    public class Bird : Animal
-    {
-        public Bird(string? animalName = null) : base(animalName)
-        {
-        }
-    }
 
     public class Mouse : Animal
     {
@@ -55,7 +49,54 @@ public class Program
 
     }
 
+    public class Rabbit : Animal
+    {
+        public Rabbit(string? animalName = null) : base(animalName)
+        {
+            Prey.Add(new Mouse());
+        }
+    }
 
+    public class Jackal : Animal
+    {
+        public Jackal(string? animalName = null) : base(animalName)
+        {
+            Prey.AddRange(new List<Animal> { new Goat(), new Rabbit()});
+        }
+    }
+
+    public class Owl : Animal
+    {
+        public Owl (string? animalName = null) : base(animalName)
+        {
+            Prey.Add(new Mouse());
+        }
+    }
+
+
+    public class Snake : Animal
+    {
+        public Snake (string? animalName = null) : base(animalName)
+        {
+            Prey.Add(new Mouse());
+        }
+    }
+
+    public class Kite : Animal
+    {
+        public Kite(string? animalName = null) : base(animalName)
+        {
+            Prey.Add(new Snake());
+        }
+    }
+
+    public class WildCat : Animal
+    {
+        public WildCat (string? animalName = null) : base(animalName)
+        {
+            Prey.AddRange(new List<Animal> { new Rabbit(), new Mouse()});
+        }
+    }
 
     public class Cage
     {
