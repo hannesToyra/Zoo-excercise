@@ -14,6 +14,19 @@ public class Program
         {
             Name = string.IsNullOrWhiteSpace(animalName) ? $"Unnamed {this.GetType().Name.ToLower()}" : animalName;
         }
+        public void GetPreyInfo()
+        {
+            if (Prey.Count == 0)
+            {
+                Console.WriteLine($"The {this.GetType().Name.ToLower()} has no prey");
+                return;
+            }
+
+            foreach (var preyAnimal in Prey)
+            {
+                Console.WriteLine($"The {this.GetType().Name.ToLower()} likes to eat {preyAnimal.GetType().Name.ToLower()}");
+            }
+        }
     }
 
     public class Lion : Animal
@@ -21,20 +34,6 @@ public class Program
         public Lion(string? animalName = null) : base(animalName)
         {
             Prey.Add(new Bird());
-        }
-
-        public void GetPreyInfo()
-        {
-            if(Prey.Count == 0)
-            {
-                Console.WriteLine("The animal has no prey");
-                return;
-            }
-
-            foreach (var animal in Prey)
-            {
-                Console.WriteLine(animal.Name);
-            }
         }
     }
 
@@ -44,6 +43,19 @@ public class Program
         {
         }
     }
+
+    public class Mouse : Animal
+    {
+
+    }
+
+
+    public class Goat : Animal
+    {
+
+    }
+
+
 
     public class Cage
     {
@@ -73,7 +85,7 @@ public class Program
                 {
                     Console.WriteLine("Ooops! Seems like you put predator and prey in the same cage");
                     Console.WriteLine($"{a.GetType().Name} was eaten by {animal.GetType().Name}");
-                    return;
+                    //AnimalList.Remove(a);
                 } else if (animal.Prey.Any(prey => a.GetType() == prey.GetType()))
                 {
                     Console.WriteLine("Ooops! Seems like you put predator and prey in the same cage");
@@ -109,5 +121,15 @@ public class Program
         cage.AddAnimal(larry);
 
         cage.AddAnimal(leo);
+
+        Mouse mickey = new Mouse();
+
+        Console.WriteLine(mickey.Name);
+
+        mickey.GetPreyInfo();
+
+        larry.GetPreyInfo();
+
+        leo.GetPreyInfo();
     }
 }
